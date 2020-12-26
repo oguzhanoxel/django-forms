@@ -1,3 +1,53 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Book
+from .forms import BookCreateForm
 
-# Create your views here.
+
+def index(request):
+    books = Book.objects.all()
+    context = {
+        'books': books,
+    }
+    template = 'books/index.html'
+    return render(request, template, context)
+
+def create(request):
+    form = BookCreateForm()
+    if request.method == 'POST':
+        form = BookCreateForm(request.POST) # image eklenir ise (request.POST, request.FILES) olarak değiştilecek
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = BookCreateForm()
+    context = {
+        'form': form,
+        'is_create': True,
+    }
+    template = 'books/edit.html'
+    return render(request, template, context)
+
+def update(request, id):
+    try:
+        book = Book.objects.get(id=id)
+    except Book.DoesNotExist:
+        print("ERROR: Book.DoesNotExist")
+    form = BookCreateForm(request.POST or None, instance=book)
+    if form.is_valid():
+        form.save()
+        return redirect('index')
+    context = {
+        'form': form,
+        'book': book,
+        'is_update':True,
+    }
+    template = 'books/edit.html'
+    return render(request, template, context)
+
+def delete(request, id):
+    try:
+        book = Book.objects.get(id=id)
+    except Book.DoesNotExist:
+        print("ERROR: Book.DoesNotExist")
+    book.delete()
+    return redirect('index')

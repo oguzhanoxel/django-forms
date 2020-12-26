@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    {% if is_create %}
+        <h4>New Book</h4>
+    {% elif is_update %}
+        <h4>Update "{{ book.title }}" information</h4>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-6 mb-0">
+                {{ form.title|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                {{ form.author|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-group col-md-12 mb-0">
+            {{ form.desc|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-1 mb-0">
+            {{ form.pages|as_crispy_field }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">
+            {% if is_create %}
+                Create
+            {% elif is_update %}
+                Save
+            {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock  %}
