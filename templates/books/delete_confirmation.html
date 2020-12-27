@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container vertical-center justify-content-center">
+    <form action="{% url 'delete_confirmation' book.id %}" method="POST"> 
+        {% csrf_token %}
+        <div id="confirmation_card" class="card text-center">
+            <div class="card-body">
+                <h4>Are you want to delete <small>"{{ book.title }}"</small> ?</h4>
+            </div>
+            <div class="cart-footer">
+                <input type="submit" value="Yes" class="btn btn-danger btn-lg" /> 
+                <a href="{% url 'detail' book.id %}" class="btn btn-primary btn-lg">Cancel</a> 
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}

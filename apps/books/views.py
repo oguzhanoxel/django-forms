@@ -11,6 +11,14 @@ def index(request):
     template = 'books/index.html'
     return render(request, template, context)
 
+def detail(request, id):
+    book = Book.objects.get(id=id)
+    context = {
+        'book': book,
+    }
+    template = 'books/detail.html'
+    return render(request, template, context)
+
 def create(request):
     form = BookCreateForm()
     if request.method == 'POST':
@@ -45,9 +53,20 @@ def update(request, id):
     return render(request, template, context)
 
 def delete(request, id):
+    book = Book.objects.get(id=id)
+    context = {
+        'book': book,
+    }
+    template = 'books/delete_confirmation.html'
+    return render(request, template, context)
+
+
+def delete_confirmation(request, id):
     try:
         book = Book.objects.get(id=id)
     except Book.DoesNotExist:
         print("ERROR: Book.DoesNotExist")
-    book.delete()
-    return redirect('index')
+    if request.method == 'POST':
+        book.delete()
+        return redirect('index')
+

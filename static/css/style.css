@@ -1,5 +1,13 @@
 .container {
     padding: 5px;
+    max-width: 100%;
+}
+.vertical-center {
+    min-height: 100%;
+    min-height: 100vh;
+  
+    display: flex;
+    align-items: center;
 }
 .card {
     margin: 5px;
@@ -7,4 +15,11 @@
 }
 .btn {
     margin-top: 5px;
+}
+#confirmation_card {
+    border: none;
+}
+.card-body h4 small {
+    font-weight: bold;
+    color:rgb(221, 17, 17);
 }
