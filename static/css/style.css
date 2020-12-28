@@ -1,5 +1,4 @@
 .container {
-    padding: 5px;
     max-width: 100%;
 }
 .vertical-center {
@@ -22,4 +21,7 @@
 .card-body h4 small {
     font-weight: bold;
     color:rgb(221, 17, 17);
+}
+.form-group #id_desc {
+    resize: none;
 }

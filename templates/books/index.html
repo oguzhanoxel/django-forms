@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <div class="row">
                             <h5 class="card-title"><a href="{% url 'detail' book.id %}">{{ book.title }}</a></h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><small class="text-muted">Pages: {{ book.pages }}</small></h6>
+                            <h6 class="card-subtitle mb-2 text-muted"><small class="text-muted">Category: {{ book.category }}, Pages: {{ book.pages }}</small></h6>
                         </div>
                         <h6 class="card-subtitle mb-2 text-muted">Author: {{ book.author }}</h6>
                         <p class="card-text">{{ book.desc|truncatechars_html:150 }}</p>
