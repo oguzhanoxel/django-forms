@@ -8,9 +8,9 @@
         {% if is_create %}
             <h4>New Book</h4>
         {% elif is_update %}
-            <h4>Update "{{ book.title }}" information</h4>
+            <h4>Update "{{ book.title }}"</h4>
         {% endif %}
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="form-group col-md-8 mb-0">
@@ -30,11 +30,14 @@
                         <div class="form-group col-md-3 mb-0">
                             {{ form.pages|as_crispy_field }}
                         </div>
+                        <div class="form-group col-md-3 mb-0">
+                            {{ form.image|as_crispy_field }}
+                        </div>
                         <button type="submit" name="create_book" class="btn btn-primary">
                             {% if is_create %}
-                                Create
+                                <p>Create</p>
                             {% elif is_update %}
-                                Save
+                                <p>Save</p>
                             {% endif %}
                         </button>
                     </div>
@@ -46,7 +49,7 @@
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            <div class="form-group col-md-6 mb-0">
+            <div class="form-group col-md-3 mb-0">
                 {{ category_form.title|as_crispy_field }}
             </div>
             <button type="submit" name="create_category" class="btn btn-primary">Add</button>
@@ -55,7 +58,9 @@
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            {{ delete_category_form }}
+            <div class="form-group col-md-3 mb-0">
+                {{ delete_category_form|crispy }}
+            </div>
             <button type="submit" name="delete_category" class="btn btn-danger">Delete</button>
         </form>
     </div>

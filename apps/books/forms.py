@@ -5,13 +5,14 @@ class BookCreateForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ('title', 'author', 'category', 'desc', 'pages') # fields = '__all__'
+        fields = ('title', 'author', 'category', 'desc', 'pages', 'image') # fields = '__all__'
         labels = {
             'title': 'Title',
             'author': 'Author',
             'category': 'Select Category',
             'desc': 'Description',
             'pages': 'Pages',
+            'image': 'Image',
         }
 
 class CategoryCreateForm(forms.ModelForm):
@@ -24,4 +25,4 @@ class CategoryCreateForm(forms.ModelForm):
         }
 
 class CategoryDeleteForm(forms.Form):
-    category = forms.ModelChoiceField(queryset= Category.objects.all())
+    category = forms.ModelChoiceField(queryset=Category.objects.all())

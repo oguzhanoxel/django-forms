@@ -19,6 +19,9 @@ class Book(models.Model):
         null=True,
         blank=True,
     )
+    image = models.ImageField(
+        upload_to='Books/', null=True, blank=True,
+    )
     title = models.CharField(
         max_length=255, null=True, blank=True,
     )
@@ -34,3 +37,8 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url

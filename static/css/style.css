@@ -25,3 +25,8 @@
 .form-group #id_desc {
     resize: none;
 }
+.article-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
