@@ -6,7 +6,7 @@
         <div class="container col-lg-4">
             <img class="article-image" src="{{ book.image_url|default_if_none:'#' }}" />
         </div>
-        <div class="container col-lg-8">
+        <div class="container col-lg-7 d-flex align-items-center">
             <div class="row align-items-start">
                 <article class="article">
                     <div class="article-title">
@@ -20,8 +20,9 @@
                     </div>
                 </article>
             </div>
-
-            <div class="container">
+        </div>
+        <div class="container col-lg-1 d-flex align-items-center">
+            <div class="row">
                 <a href="{% url 'update' book.id %}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="{% url 'delete' book.id %}" class="btn btn-danger btn-sm">Delete</a>
             </div>

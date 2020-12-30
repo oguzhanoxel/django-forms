@@ -13,6 +13,19 @@
                     <a class="nav-link" href="{% url 'create' %}">Add New Book</a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <div class="btn-group" role="group">
+                        <a href="#" class="btn btn-secondary">My Profile</a>
+                        <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                        <a href="{% url 'signup' %}" class="btn btn-secondary">Sign up</a>
+                    </div>
+                {% endif %}
+            </ul>
         </div>
     </div>
   </nav>
