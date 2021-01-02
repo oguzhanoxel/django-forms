@@ -4,65 +4,62 @@
 
 {% block content %}
 <div class="container">
-    <div class="container">
-        {% if is_create %}
-            <h4>New Book</h4>
-        {% elif is_update %}
-            <h4>Update "{{ book.title }}"</h4>
-        {% endif %}
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="row">
-                <div class="form-group col-md-8 mb-0">
-                    {{ form.desc|as_crispy_field }}
-                </div>
-                <div class="col-md-4 mb-0">
-                    <div class="container">
-                        <div class="form-group">
-                            {{ form.title|as_crispy_field }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.author|as_crispy_field }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.category|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.pages|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-3 mb-0">
-                            {{ form.image|as_crispy_field }}
-                        </div>
-                        <button type="submit" name="create_book" class="btn btn-primary">
-                            {% if is_create %}
-                                <p>Create</p>
-                            {% elif is_update %}
-                                <p>Save</p>
-                            {% endif %}
-                        </button>
+    {% if is_create %}
+        <h4>New Book</h4>
+    {% elif is_update %}
+        <h4>Update "{{ book.title }}"</h4>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-8 mb-0">
+                {{ form.desc|as_crispy_field }}
+            </div>
+            <div class="col-md-4 mb-0">
+                <div class="container">
+                    <div class="form-group">
+                        {{ form.title|as_crispy_field }}
                     </div>
+                    <div class="form-group">
+                        {{ form.author|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.category|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.pages|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3 mb-0">
+                        {{ form.image|as_crispy_field }}
+                    </div>
+                    <button type="submit" name="create_book" class="btn btn-primary">
+                        {% if is_create %}
+                            <p>Create</p>
+                        {% elif is_update %}
+                            <p>Save</p>
+                        {% endif %}
+                    </button>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
     <hr>
-    <div class="container">
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group col-md-3 mb-0">
-                {{ category_form.title|as_crispy_field }}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3 mb-0">
+                <div class="form-group">
+                    {{ category_form.title|as_crispy_field }}
+                </div>
+                <button type="submit" name="create_category" class="btn btn-primary">Add</button>
             </div>
-            <button type="submit" name="create_category" class="btn btn-primary">Add</button>
-        </form>
-    </div>
-    <div class="container">
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group col-md-3 mb-0">
-                {{ delete_category_form|crispy }}
+            <div class="col-md-3 mb-0">
+                <div class="form-group">
+                    {{ delete_category_form|crispy }}
+                </div>
+                <button type="submit" name="delete_category" class="btn btn-danger">Delete</button>
             </div>
-            <button type="submit" name="delete_category" class="btn btn-danger">Delete</button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 {% endblock  %}

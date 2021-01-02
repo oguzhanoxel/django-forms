@@ -1,7 +1,8 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login as auth_login, authenticate
 from .forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
+
 
 def signup(request):
     if request.method == 'POST':
@@ -9,9 +10,10 @@ def signup(request):
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email')
+            form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=raw_password)
-            login(request, user)
+            auth_login(request, user)
             return redirect('index')
     else:
         form = UserCreationForm()

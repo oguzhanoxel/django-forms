@@ -8,4 +8,5 @@ class UserCreationForm(UserCreationForm):
         model = User
         fields = (
             "email",
+            "username",
         )

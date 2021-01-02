@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row">E-mail:</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">User Name:</th>
+                <td>{{ user.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">BookName</th>
+                <th scope="col">Author</th>
+                <th scope="col">Pages</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for wishedbook in wishlist %}
+                <tr>
+                    <td>{{ wishedbook.book.title }}</td>
+                    <td>{{ wishedbook.book.author }}</td>
+                    <td>{{ wishedbook.book.pages }}</td>
+                    <td><a href="{% url 'remove_wishlist' id=wishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endblock %}

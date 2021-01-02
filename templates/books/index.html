@@ -6,7 +6,7 @@
         <div class="row">
             {% for book in books %}
             <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="card text-center">
+                <div class="card text-center h-100">
                     <img class="card-img-top" src="{{ book.image_url|default_if_none:'#' }}">
                     <div class="card-body">
                         <div class="row">
