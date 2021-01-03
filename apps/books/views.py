@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Book, Category
 from .forms import (
     BookCreateForm,
@@ -22,6 +24,7 @@ def detail(request, id):
     template = 'books/detail.html'
     return render(request, template, context)
 
+@login_required
 def create(request):
     # Create Book
     form = BookCreateForm()
@@ -29,7 +32,9 @@ def create(request):
         if 'create_book' in request.POST:
             form = BookCreateForm(request.POST, request.FILES) # image eklenir ise (request.POST, request.FILES) olarak değiştilecek
             if form.is_valid():
-                form.save()
+                book = form.save(commit=False)
+                book.created_by = request.user
+                book.save()
                 return redirect('index')
     else:
         form = BookCreateForm()
@@ -69,16 +74,21 @@ def create(request):
     template = 'books/edit.html'
     return render(request, template, context)
 
+@login_required
 def update(request, id):
     # Update Book
     try:
         book = Book.objects.get(id=id)
     except Book.DoesNotExist:
         print("ERROR: Book.DoesNotExist")
-    form = BookCreateForm(request.POST or None, request.FILES or None, instance=book)
-    if form.is_valid():
-        form.save()
-        return redirect('index')
+    if (request.user != book.created_by) and (request.user.is_admin == False):
+        messages.warning(request, 'This book created by {}'.format(book.created_by.username))
+        return redirect('detail', book.id)
+    else:
+        form = BookCreateForm(request.POST or None, request.FILES or None, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
 
     # Create Category
     category_form = CategoryCreateForm()
@@ -115,24 +125,34 @@ def update(request, id):
     template = 'books/edit.html'
     return render(request, template, context)
 
+@login_required
 def delete(request, id):
     book = Book.objects.get(id=id)
-    context = {
-        'book': book,
-    }
-    template = 'books/delete_confirmation.html'
-    return render(request, template, context)
 
+    if (request.user != book.created_by) and (request.user.is_admin == False):
+        messages.warning(request, 'This book created by {}'.format(book.created_by.username))
+        return redirect('detail', book.id)
+    else:
+        context = {
+            'book': book,
+        }
+        template = 'books/delete_confirmation.html'
+        return render(request, template, context)
 
+@login_required
 def delete_confirmation(request, id):
     try:
         book = Book.objects.get(id=id)
     except Book.DoesNotExist:
         print("ERROR: Book.DoesNotExist")
-    if request.method == 'POST':
-        if book.image:
-            book.image.delete()
-        book.delete()
-        return redirect('index')
+    if (request.user != book.created_by) and (request.user.is_admin == False):
+        messages.warning(request, 'This book created by {}'.format(book.created_by.username))
+        return redirect('detail', book.id)
+    else:
+        if request.method == 'POST':
+            if book.image:
+                book.image.delete()
+            book.delete()
+            return redirect('index')
 
 

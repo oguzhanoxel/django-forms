@@ -44,22 +44,25 @@
         </div>
     </form>
     <hr>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-3 mb-0">
+    <div class="row">
+        <div class="col-md-3 mb-0">
+            <form method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                     {{ category_form.title|as_crispy_field }}
                 </div>
                 <button type="submit" name="create_category" class="btn btn-primary">Add</button>
-            </div>
-            <div class="col-md-3 mb-0">
+            </form>
+        </div>
+        <div class="col-md-3 mb-0">
+            <form method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                     {{ delete_category_form|crispy }}
                 </div>
                 <button type="submit" name="delete_category" class="btn btn-danger">Delete</button>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock  %}

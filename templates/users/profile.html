@@ -14,6 +14,7 @@
             </tr>
         </tbody>
     </table>
+    <h3>Wishlist</h3>
     <table class="table">
         <thead>
             <tr>
@@ -26,7 +27,7 @@
         <tbody>
             {% for wishedbook in wishlist %}
                 <tr>
-                    <td>{{ wishedbook.book.title }}</td>
+                    <td><a href="{% url 'detail' wishedbook.book.id %}">{{ wishedbook.book.title }}</a></td>
                     <td>{{ wishedbook.book.author }}</td>
                     <td>{{ wishedbook.book.pages }}</td>
                     <td><a href="{% url 'remove_wishlist' id=wishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
