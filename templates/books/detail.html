@@ -2,13 +2,6 @@
 
 {% block content %}
 <div class="container">
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
     <div class="row">
         <div class="col-lg-4">
             <img class="article-image" src="{{ book.image_url|default_if_none:'#' }}" />

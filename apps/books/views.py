@@ -44,10 +44,16 @@ def create(request):
     category_form = CategoryCreateForm()
     if request.method == 'POST':
         if 'create_category' in request.POST:
-            category_form = CategoryCreateForm(request.POST) # image eklenir ise (request.POST, request.FILES) olarak değiştilecek
-            if category_form.is_valid():
-                category_form.save()
-                return redirect('create')
+            if (request.user.is_admin == False):
+                url = request.META.get('HTTP_REFERER')
+                messages.warning(request, 'Only admin create category !')
+                return redirect(url)
+            else:
+                url = request.META.get('HTTP_REFERER')
+                category_form = CategoryCreateForm(request.POST) # image eklenir ise (request.POST, request.FILES) olarak değiştilecek
+                if category_form.is_valid():
+                    category_form.save()
+                    return redirect(url)
     else:
         category_form = CategoryCreateForm()
     ###
@@ -56,11 +62,17 @@ def create(request):
     delete_category_form = CategoryDeleteForm()
     if request.method == 'POST':
         if 'delete_category' in request.POST:
-            delete_category_form = CategoryDeleteForm(request.POST)
-            if delete_category_form.is_valid():
-                category = Category.objects.get(id = request.POST.get("category") )
-                category.delete()
-                return redirect('create')
+            if (request.user.is_admin == False):
+                url = request.META.get('HTTP_REFERER')
+                messages.warning(request, 'Only admin delete category !')
+                return redirect(url)
+            else:
+                url = request.META.get('HTTP_REFERER')
+                delete_category_form = CategoryDeleteForm(request.POST)
+                if delete_category_form.is_valid():
+                    category = Category.objects.get(id = request.POST.get("category") )
+                    category.delete()
+                    return redirect(url)
     else:
         delete_category_form = CategoryDeleteForm()
     ###
@@ -86,18 +98,25 @@ def update(request, id):
         return redirect('detail', book.id)
     else:
         form = BookCreateForm(request.POST or None, request.FILES or None, instance=book)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
+        if 'create_book' in request.POST:
+            if form.is_valid():
+                form.save()
+                return redirect('index')
 
-    # Create Category
+  # Create Category
     category_form = CategoryCreateForm()
     if request.method == 'POST':
         if 'create_category' in request.POST:
-            category_form = CategoryCreateForm(request.POST) # image eklenir ise (request.POST, request.FILES) olarak değiştilecek
-            if category_form.is_valid():
-                category_form.save()
-                return redirect('create')
+            if (request.user.is_admin == False):
+                url = request.META.get('HTTP_REFERER')
+                messages.warning(request, 'Only admin create category !')
+                return redirect(url)
+            else:
+                url = request.META.get('HTTP_REFERER')
+                category_form = CategoryCreateForm(request.POST) # image eklenir ise (request.POST, request.FILES) olarak değiştilecek
+                if category_form.is_valid():
+                    category_form.save()
+                    return redirect(url)
     else:
         category_form = CategoryCreateForm()
     ###
@@ -106,11 +125,17 @@ def update(request, id):
     delete_category_form = CategoryDeleteForm()
     if request.method == 'POST':
         if 'delete_category' in request.POST:
-            delete_category_form = CategoryDeleteForm(request.POST)
-            if delete_category_form.is_valid():
-                category = Category.objects.get(id = request.POST.get("category") )
-                category.delete()
-                return redirect('create')
+            if (request.user.is_admin == False):
+                url = request.META.get('HTTP_REFERER')
+                messages.warning(request, 'Only admin delete category !')
+                return redirect(url)
+            else:
+                url = request.META.get('HTTP_REFERER')
+                delete_category_form = CategoryDeleteForm(request.POST)
+                if delete_category_form.is_valid():
+                    category = Category.objects.get(id = request.POST.get("category") )
+                    category.delete()
+                    return redirect(url)
     else:
         delete_category_form = CategoryDeleteForm()
     ###
