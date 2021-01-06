@@ -9,6 +9,7 @@
                 <th scope="col">Book Name</th>
                 <th scope="col">Author</th>
                 <th scope="col">Last Read Page</th>
+                <th scope="col">Change Last Page</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -18,6 +19,15 @@
                     <td><a href="{% url 'detail' readingbook.book.id %}">{{ readingbook.book.title }}</a></td>
                     <td>{{ readingbook.book.author }}</td>
                     <td>{{ readingbook.last_page }}/{{ readingbook.book.pages }}</td>
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                {{ page_update_form.last_page|as_crispy_field }}
+                                <button type="submit" name="{{ readingbook.id }}" class="btn btn-secondary btn-sm">change</button>
+                            </div>
+                        </form>
+                    </td>
                     <td><a href="{% url 'remove_readinglist' id=readingbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
                 </tr>
             {% endfor %}

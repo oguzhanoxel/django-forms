@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .forms import ReadingPageForm
+from .forms import PageUpdateForm
 
 from .models import Wishlist, FinishedList, ReadingList
 from apps.users.models import User
@@ -75,8 +75,24 @@ def remove_finishedlist(request, id):
 @login_required
 def readinglist(request):
     readinglist = ReadingList.objects.filter(user=request.user)
+
+    page_update_form = PageUpdateForm()
+    if request.method == 'POST':
+        for readingbook in readinglist:
+            if str(readingbook.id) in request.POST:
+                page_update_form = PageUpdateForm(request.POST)
+                if page_update_form.is_valid():
+                    print(readingbook)
+                    page_num = page_update_form.cleaned_data['last_page']
+                    readingbook.update_last_page(page_num)
+                    readingbook.save()
+                    page_update_form = PageUpdateForm()
+    else:
+        page_update_form = PageUpdateForm()
+
     context = {
         'readinglist': readinglist,
+        'page_update_form': page_update_form,
         'is_readinglist': True,
     }
     template = 'users/lists/readinglist.html'

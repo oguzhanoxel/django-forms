@@ -46,3 +46,9 @@ class ReadingList(models.Model):
     last_page = models.PositiveIntegerField(default=1, null=True, blank=True)
     added_date = models.DateTimeField(auto_now_add=True)
     changed_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.book.title
+
+    def update_last_page(self, page_num):
+        self.last_page = page_num
