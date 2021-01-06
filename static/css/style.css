@@ -40,3 +40,6 @@ html,body{
     height: 30vw;
     object-fit: contain;
 }
+#id_last_page {
+    width: 100px;
+}

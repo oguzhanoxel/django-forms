@@ -26,7 +26,9 @@
         </div>
         <div class="col-lg-1 d-flex align-self-center">
             <div class="row">
-                <a href="{% url 'add_wishlist' book.id %}" class="btn btn-primary btn-sm">Add Wishlist</a>
+                <a href="{% url 'add_wishlist' book.id %}" class="btn btn-primary btn-sm">Wishlist</a>
+                <a href="{% url 'add_readinglist' book.id %}" class="btn btn-primary btn-sm">Add Reading</a>
+                <a href="{% url 'add_finishedlist' book.id %}" class="btn btn-primary btn-sm">Add Finished</a>
                 <a href="{% url 'update' book.id %}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="{% url 'delete' book.id %}" class="btn btn-danger btn-sm">Delete</a>
             </div>

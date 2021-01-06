@@ -1,0 +1,26 @@
+{% extends 'users/profile.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block lists %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Book Name</th>
+                <th scope="col">Author</th>
+                <th scope="col">Last Read Page</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for readingbook in readinglist %}
+                <tr>
+                    <td><a href="{% url 'detail' readingbook.book.id %}">{{ readingbook.book.title }}</a></td>
+                    <td>{{ readingbook.book.author }}</td>
+                    <td>{{ readingbook.last_page }}/{{ readingbook.book.pages }}</td>
+                    <td><a href="{% url 'remove_readinglist' id=readingbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock lists %}

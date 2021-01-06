@@ -14,26 +14,16 @@
             </tr>
         </tbody>
     </table>
-    <h3>Wishlist</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">BookName</th>
-                <th scope="col">Author</th>
-                <th scope="col">Pages</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for wishedbook in wishlist %}
-                <tr>
-                    <td><a href="{% url 'detail' wishedbook.book.id %}">{{ wishedbook.book.title }}</a></td>
-                    <td>{{ wishedbook.book.author }}</td>
-                    <td>{{ wishedbook.book.pages }}</td>
-                    <td><a href="{% url 'remove_wishlist' id=wishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-      </table>
+    <div class="text-center">
+        <div class="btn-group" role="group">
+            <a href="{% url 'wishlist' %}" class="btn btn-secondary btn-lg {% if is_wishlist %}active{% endif %}">Wishlist</a>
+            <a href="{% url 'readinglist' %}" class="btn btn-secondary btn-lg {% if is_readinglist %}active{% endif %}">Still Reading</a>
+            <a href="{% url 'finishedlist' %}" class="btn btn-secondary btn-lg {% if is_finishedlist %}active{% endif %}">Finished</a>
+        </div>
+    </div>
+
+    {% block lists %}
+    {% endblock lists %}
+    
 </div>
 {% endblock %}
