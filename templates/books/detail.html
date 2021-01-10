@@ -19,7 +19,7 @@
                         <p>{{ book.desc }}</p>
                     </div>
                     <div class="article-created-by">
-                        <p class="text-muted">created by {{ book.created_by.username }} on {{ book.created_at }}</p>
+                        <p class="text-muted">created by <a href="{% url 'otherprofile' book.created_by.id %}">{{ book.created_by.username }}</a> on {{ book.created_at }}</p>
                     </div>
                 </article>
             </div>

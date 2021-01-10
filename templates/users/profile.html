@@ -7,20 +7,34 @@
             <tbody>
                 <tr>
                     <th scope="row">E-mail:</th>
-                    <td>{{ user.email }}</td>
+                    {% if is_myprofile == True %}
+                        <td>{{ user.email }}</td>
+                    {% elif is_otherprofile == True %}
+                        <td>{{ otheruser.email }}</td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <th scope="row">User Name:</th>
-                    <td>{{ user.username }}</td>
+                    {% if is_myprofile == True %}
+                        <td>{{ user.username }}</td>
+                    {% elif is_otherprofile == True %}
+                        <td>{{ otheruser.username }}</td>
+                    {% endif %}
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="text-center">
         <div class="btn-group" role="group">
-            <a href="{% url 'wishlist' %}" class="btn btn-secondary btn-lg {% if is_wishlist %}active{% endif %}">Wishlist</a>
-            <a href="{% url 'readinglist' %}" class="btn btn-secondary btn-lg {% if is_readinglist %}active{% endif %}">Still Reading</a>
-            <a href="{% url 'finishedlist' %}" class="btn btn-secondary btn-lg {% if is_finishedlist %}active{% endif %}">Finished</a>
+            {% if is_myprofile == True %}
+                <a href="{% url 'wishlist' request.user.id %}" class="btn btn-secondary btn-lg {% if is_wishlist %}active{% endif %}">Wishlist</a>
+                <a href="{% url 'readinglist' request.user.id %}" class="btn btn-secondary btn-lg {% if is_readinglist %}active{% endif %}">Still Reading</a>
+                <a href="{% url 'finishedlist' request.user.id %}" class="btn btn-secondary btn-lg {% if is_finishedlist %}active{% endif %}">Finished</a>
+            {% elif is_otherprofile == True %}
+                <a href="{% url 'wishlist' otheruser.id %}" class="btn btn-secondary btn-lg {% if is_wishlist %}active{% endif %}">Wishlist</a>
+                <a href="{% url 'readinglist' otheruser.id %}" class="btn btn-secondary btn-lg {% if is_readinglist %}active{% endif %}">Still Reading</a>
+                <a href="{% url 'finishedlist' otheruser.id %}" class="btn btn-secondary btn-lg {% if is_finishedlist %}active{% endif %}">Finished</a>
+            {% endif %}
         </div>
     </div>
     <div class="container">

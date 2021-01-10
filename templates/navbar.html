@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                     <div class="btn-group" role="group">
-                        <a href="{% url 'profile' %}" class="btn btn-secondary">My Profile</a>
+                        <a href="{% url 'myprofile' %}" class="btn btn-secondary">My Profile</a>
                         <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
                     </div>
                 {% else %}

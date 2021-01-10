@@ -9,20 +9,41 @@ from apps.users.models import User
 from apps.books.models import Book
 
 @login_required
-def profile(request):
+def myprofile(request):
     user = User.objects.get(id=request.user.id)
     context = {
         'user': user,
+        'is_myprofile': True,
     }
     template = 'users/profile.html'
     return render(request, template, context)
 
 @login_required
-def wishlist(request):
-    user = request.user
+def otherprofile(request, id):
+    user = User.objects.get(id=id)
+    context = {
+        'otheruser': user,
+        'is_otherprofile': True,
+    }
+    template = 'users/profile.html'
+    return render(request, template, context)
+
+@login_required
+def wishlist(request, id):
+    user = User.objects.get(id=id)
+    if request.user == user:
+        is_myprofile = True
+        is_otherprofile = False
+    else:
+        is_otherprofile = True
+        is_myprofile = False
+
     wishlist = List.objects.filter(user=user, is_wished=True)
     context = {
         'wishlist': wishlist,
+        'otheruser': user,
+        'is_myprofile': is_myprofile,
+        'is_otherprofile': is_otherprofile,
     }
     template = 'users/lists/wishlist.html'
     return render(request, template, context)
@@ -40,7 +61,7 @@ def add_wishlist(request, id):
     wishbook.is_reading = False
     wishbook.save()
     messages.success(request, '{} has been added wishlist'.format(wishbook.book.title))
-    return redirect('wishlist')
+    return redirect('wishlist', user.id)
 
 @login_required
 def remove_wishlist(request, id):
@@ -49,11 +70,20 @@ def remove_wishlist(request, id):
     wished_book = List.objects.get(user=user, book=book, is_wished=True)
     wished_book.is_wished = False
     wished_book.save()
-    return redirect('wishlist')
+
+    messages.success(request, '{} has been removed wishlist'.format(wishbook.book.title))
+
+    return redirect('wishlist', user.id)
 
 @login_required
-def readinglist(request):
-    user = request.user
+def readinglist(request, id):
+    user = User.objects.get(id=id)
+    if request.user == user:
+        is_myprofile = True
+        is_otherprofile = False
+    else:
+        is_otherprofile = True
+        is_myprofile = False
     readinglist = List.objects.filter(user=user, is_reading=True)
 
     page_update_form = PageUpdateForm()
@@ -66,13 +96,16 @@ def readinglist(request):
                     reading_book = List.objects.get(id = reading_book.id)
                     reading_book.last_page = page_update_form.cleaned_data['last_page']
                     reading_book.save()
-                    return redirect('readinglist')
+                    return redirect('readinglist', user.id)
     else:
         page_update_form = PageUpdateForm()
 
     context = {
         'page_update_form': page_update_form,
         'readinglist': readinglist,
+        'otheruser': user,
+        'is_myprofile': is_myprofile,
+        'is_otherprofile': is_otherprofile,
     }
     template = 'users/lists/readinglist.html'
     return render(request, template, context)
@@ -92,7 +125,7 @@ def add_readinglist(request, id):
 
     messages.success(request, '{} has been added reading list'.format(readingbook.book.title))
 
-    return redirect('readinglist')
+    return redirect('readinglist', user.id)
 
 @login_required
 def remove_readinglist(request, id):
@@ -101,14 +134,26 @@ def remove_readinglist(request, id):
     readingbook = List.objects.get(user=user, book=book, is_reading=True)
     readingbook.is_reading = False
     readingbook.save()
-    return redirect('readinglist')
+
+    messages.success(request, '{} has been removed reading list'.format(readingbook.book.title))
+
+    return redirect('readinglist', user.id)
 
 @login_required
-def finishedlist(request):
-    user = request.user
+def finishedlist(request, id):
+    user = User.objects.get(id=id)
+    if request.user == user:
+        is_myprofile = True
+        is_otherprofile = False
+    else:
+        is_otherprofile = True
+        is_myprofile = False
     finishedlist = List.objects.filter(user=user, is_finished=True)
     context = {
         'finishedlist': finishedlist,
+        'otheruser': user,
+        'is_myprofile': is_myprofile,
+        'is_otherprofile': is_otherprofile,
     }
     template = 'users/lists/finishedlist.html'
     return render(request, template, context)
@@ -128,7 +173,7 @@ def add_finishedlist(request, id):
 
     messages.success(request, '{} has been added finished list'.format(finishedbook.book.title))
 
-    return redirect('finishedlist')
+    return redirect('finishedlist', user.id)
 
 @login_required
 def remove_finishedlist(request, id):
@@ -137,5 +182,8 @@ def remove_finishedlist(request, id):
     finishedbook = List.objects.get(user=user, book=book, is_finished=True)
     finishedbook.is_finished = False
     finishedbook.save()
-    return redirect('finishedlist')
+
+    messages.success(request, '{} has been removed finished list'.format(finishedbook.book.title))
+
+    return redirect('finishedlist', user.id)
     

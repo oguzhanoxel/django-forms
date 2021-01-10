@@ -19,13 +19,15 @@
                         <td><a href="{% url 'detail' finishedbook.book.id %}">{{ finishedbook.book.title }}</a></td>
                         <td>{{ finishedbook.book.author }}</td>
                         <td>{{ finishedbook.book.pages }}</td>
-                        <td>
-                            <div class="btn-group-vertical">
-                                <a href="{% url 'add_wishlist' finishedbook.book.id %}"class="btn btn-primary btn-sm">Move to Wishlist</a>
-                                <a href="{% url 'add_readinglist' finishedbook.book.id %}" class="btn btn-secondary btn-sm">Move to Reading</a>
-                                <a href="{% url 'remove_finishedlist' finishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a>
-                            </div>
-                        </td>
+                        {% if is_myprofile %}
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a href="{% url 'add_wishlist' finishedbook.book.id %}"class="btn btn-primary btn-sm">Move to Wishlist</a>
+                                    <a href="{% url 'add_readinglist' finishedbook.book.id %}" class="btn btn-secondary btn-sm">Move to Reading</a>
+                                    <a href="{% url 'remove_finishedlist' finishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a>
+                                </div>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

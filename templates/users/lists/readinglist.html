@@ -31,13 +31,15 @@
                                 </div>
                             </form>
                         </td>
-                        <td>
-                            <div class="btn-group-vertical">
-                                <a href="{% url 'add_wishlist' readingbook.book.id %}"class="btn btn-primary btn-sm">Move to Wishlist</a>
-                                <a href="{% url 'add_finishedlist' readingbook.book.id %}" class="btn btn-secondary btn-sm">Move to Finished</a>
-                                <a href="{% url 'remove_readinglist' readingbook.book.id %}" class="btn btn-danger btn-sm">Remove</a>
-                            </div>
-                        </td>
+                        {% if is_myprofile %}
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a href="{% url 'add_wishlist' readingbook.book.id %}"class="btn btn-primary btn-sm">Move to Wishlist</a>
+                                    <a href="{% url 'add_finishedlist' readingbook.book.id %}" class="btn btn-secondary btn-sm">Move to Finished</a>
+                                    <a href="{% url 'remove_readinglist' readingbook.book.id %}" class="btn btn-danger btn-sm">Remove</a>
+                                </div>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
