@@ -1,24 +1,34 @@
 {% extends 'users/profile.html' %}
 
 {% block lists %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Book Name</th>
-                <th scope="col">Author</th>
-                <th scope="col">Pages</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for finishedbook in finishedlist %}
+    {% if finishedlist == None %}
+        <h3>No books have been added to the finished list yet</h3>
+    {% else %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><a href="{% url 'detail' finishedbook.book.id %}">{{ finishedbook.book.title }}</a></td>
-                    <td>{{ finishedbook.book.author }}</td>
-                    <td>{{ finishedbook.book.pages }}</td>
-                    <td><a href="{% url 'remove_finishedlist' id=finishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
+                    <th scope="col">Book Name</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Pages</th>
+                    <th scope="col"></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for finishedbook in finishedlist %}
+                    <tr>
+                        <td><a href="{% url 'detail' finishedbook.book.id %}">{{ finishedbook.book.title }}</a></td>
+                        <td>{{ finishedbook.book.author }}</td>
+                        <td>{{ finishedbook.book.pages }}</td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                <a href="{% url 'add_wishlist' finishedbook.book.id %}"class="btn btn-primary btn-sm">Move to Wishlist</a>
+                                <a href="{% url 'add_readinglist' finishedbook.book.id %}" class="btn btn-secondary btn-sm">Move to Reading</a>
+                                <a href="{% url 'remove_finishedlist' finishedbook.book.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock lists %}

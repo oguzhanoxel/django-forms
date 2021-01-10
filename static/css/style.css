@@ -43,3 +43,9 @@ html,body{
 #id_last_page {
     width: 100px;
 }
+tr td, tr th {
+    text-align: center;
+}
+tr td {
+    vertical-align: middle;
+}

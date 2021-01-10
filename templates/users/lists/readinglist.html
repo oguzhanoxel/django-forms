@@ -3,34 +3,44 @@
 {% load crispy_forms_tags %}
 
 {% block lists %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Book Name</th>
-                <th scope="col">Author</th>
-                <th scope="col">Last Read Page</th>
-                <th scope="col">Change Last Page</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for readingbook in readinglist %}
+    {% if readinglist == None %}
+        <h3>No books have been added to the reading list yet</h3>
+    {% else %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><a href="{% url 'detail' readingbook.book.id %}">{{ readingbook.book.title }}</a></td>
-                    <td>{{ readingbook.book.author }}</td>
-                    <td>{{ readingbook.last_page }}/{{ readingbook.book.pages }}</td>
-                    <td>
-                        <form method="POST">
-                            {% csrf_token %}
-                            <div class="input-group">
-                                {{ page_update_form.last_page|as_crispy_field }}
-                                <button type="submit" name="{{ readingbook.id }}" class="btn btn-secondary btn-sm">change</button>
-                            </div>
-                        </form>
-                    </td>
-                    <td><a href="{% url 'remove_readinglist' id=readingbook.book.id %}" class="btn btn-danger btn-sm">Remove</a></td>
+                    <th scope="col">Book Name</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Last Read Page</th>
+                    <th scope="col">Change Last Page</th>
+                    <th scope="col"></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for readingbook in readinglist %}
+                    <tr>
+                        <td><a href="{% url 'detail' readingbook.book.id %}">{{ readingbook.book.title }}</a></td>
+                        <td>{{ readingbook.book.author }}</td>
+                        <td>{{ readingbook.last_page }}/{{ readingbook.book.pages }}</td>
+                        <td>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    {{ page_update_form.last_page|as_crispy_field }}
+                                    <button type="submit" name="{{ readingbook.id }}" class="btn btn-secondary btn-sm">change</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                <a href="{% url 'add_wishlist' readingbook.book.id %}"class="btn btn-primary btn-sm">Move to Wishlist</a>
+                                <a href="{% url 'add_finishedlist' readingbook.book.id %}" class="btn btn-secondary btn-sm">Move to Finished</a>
+                                <a href="{% url 'remove_readinglist' readingbook.book.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock lists %}
