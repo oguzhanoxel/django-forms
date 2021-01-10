@@ -16,7 +16,7 @@
             <tbody>
                 {% for wishedbook in wishlist %}
                     <tr>
-                        <td><a href="#">{{ wishedbook.book.title }}</a></td>
+                        <td><a href="{% url 'detail' wishedbook.book.id %}">{{ wishedbook.book.title }}</a></td>
                         <td>{{ wishedbook.book.author }}</td>
                         <td>{{ wishedbook.book.pages }}</td>
                         <td>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import PageUpdateForm
 
@@ -38,7 +39,7 @@ def add_wishlist(request, id):
     wishbook.is_finished = False
     wishbook.is_reading = False
     wishbook.save()
-
+    messages.success(request, '{} has been added wishlist'.format(wishbook.book.title))
     return redirect('wishlist')
 
 @login_required
@@ -89,6 +90,8 @@ def add_readinglist(request, id):
     readingbook.is_reading = True
     readingbook.save()
 
+    messages.success(request, '{} has been added reading list'.format(readingbook.book.title))
+
     return redirect('readinglist')
 
 @login_required
@@ -122,6 +125,8 @@ def add_finishedlist(request, id):
     finishedbook.is_finished = True
     finishedbook.is_reading = False
     finishedbook.save()
+
+    messages.success(request, '{} has been added finished list'.format(finishedbook.book.title))
 
     return redirect('finishedlist')
 
