@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <div class="container">
     <div class="row">
@@ -32,6 +34,40 @@
                 <a href="{% url 'update' book.id %}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="{% url 'delete' book.id %}" class="btn btn-danger btn-sm">Delete</a>
             </div>
+        </div>
+    </div>
+    <hr>
+    {% if user.is_authenticated %}
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-8">
+                <h3>New Comment</h3>
+                <form method="POST" class="post-form">
+                    {% csrf_token %}
+                    {{ form.text|as_crispy_field }}
+                    <button type="submit" name="send_comment" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <h6><a href="{% url 'signup' %}">sign up</a> or <a href="{% url 'login' %}">login</a> to send comment</h6>
+        </div>
+    {% endif %}
+    <hr>
+    <div class="d-flex justify-content-center">
+        <div class="col-lg-8">
+            {% for comment in comments %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'otherprofile' book.created_by.id %}">{{ comment.user.username }}</a></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ comment.created_date }}</h6>
+                        <p class="card-text">{{ comment.text }}</p>
+                        {% if request.user == comment.user %}
+                            <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>

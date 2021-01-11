@@ -91,7 +91,6 @@ def readinglist(request, id):
         for reading_book in readinglist:
             if str(reading_book.id) in request.POST:
                 page_update_form = PageUpdateForm(request.POST)
-                print(page_update_form)
                 if page_update_form.is_valid():
                     reading_book = List.objects.get(id = reading_book.id)
                     reading_book.last_page = page_update_form.cleaned_data['last_page']

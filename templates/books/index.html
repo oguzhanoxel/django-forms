@@ -20,5 +20,18 @@
             </div>
             {% endfor %}
         </div>
+        <ul class="pagination justify-content-center" style="margin-top: 10px;">
+            {% if books.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ books.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" tabindex="-1">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="#">{{ books.number }} / {{ books.paginator.num_pages }}</a></li>
+            {% if books.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ books.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
 {% endblock %}

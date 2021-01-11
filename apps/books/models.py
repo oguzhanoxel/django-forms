@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from apps.users.models import User
 
 class Category(models.Model):
@@ -51,3 +52,20 @@ class Book(models.Model):
     def image_url(self):
         if self.image and hasattr(self.image, 'url'):
             return self.image.url
+
+class Comment(models.Model):
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE,
+        related_name='comments',
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='comments',
+    )
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text
