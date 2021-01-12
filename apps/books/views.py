@@ -45,6 +45,14 @@ def search(request):
     template = 'books/index.html'
     return render(request, template, context)
 
+def category(request, id):
+    category = get_object_or_404(Category, id=id)
+    books = Book.objects.filter(category=category)
+    context = {
+        'books': books,
+    }
+    return render(request, 'books/index.html', context)
+
 def detail(request, id):
     book = Book.objects.get(id=id)
     comments = Comment.objects.filter(book = book)

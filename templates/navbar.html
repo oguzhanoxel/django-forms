@@ -2,25 +2,33 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">Books</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for category in menu_categories %}
+                            <li><a class="dropdown-item" href="{% url 'category' category.id %}">{{ category.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create' %}">Add New Book</a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <form action="{% url 'search' %}" method="GET" role="search" class="form-inline" style="margin-right: 5px;">
-                    <div class="input-group">
-                        <input class="form-control mr-sm-2" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </div>
-                </form>
-            </ul>
+            <form action="{% url 'search' %}" method="GET" role="search" class="form-inline" style="margin-right: 5px;">
+                <div class="input-group">
+                    <input class="form-control mr-sm-2" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </form>
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                     <div class="btn-group" role="group">
@@ -36,4 +44,4 @@
             </ul>
         </div>
     </div>
-  </nav>
+</nav>
